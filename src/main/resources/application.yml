@@ -12,11 +12,11 @@ logging:
 app:
   config:
     columnConfig:
-      path: "/Users/michaelgeorge/my works/datatranslator/resources/testfiles/column.config"
+      path: "/home/data/column.config"
     vendorConfig:
-      path: "/Users/michaelgeorge/my works/datatranslator/resources/testfiles/vendor.config"
+      path: "/home/data/vendor.config"
     vendorData:
-      path: "/Users/michaelgeorge/my works/datatranslator/resources/testfiles/data.dat"
+      path: "/home/data/data.dat"
     processedData:
-      path: "/Users/michaelgeorge/my works/datatranslator/resources/testfiles/processed.dat"
+      path: "/home/data/processed.dat"
     schedule: 5000 #36000000 #10Hrs

@@ -1,6 +1,13 @@
 # Data Translator
 
+## About
 
+<p>Data Translator is a multithreading high performance scheduler which can process and transform large data files based on defined configurations.</p>
+Ref below  samples of supported Data and config files
+
+- [Column Config](https://github.com/mikykg/datatranslator/blob/mg/main/resources/testfiles/column.config)
+- [Row Config](https://github.com/mikykg/datatranslator/blob/mg/main/resources/testfiles/vendor.config)
+- [Sample Data](https://github.com/mikykg/datatranslator/blob/mg/main/resources/testfiles/data.dat)
 
 ## Requirements
 
@@ -12,13 +19,19 @@
 
 - [Spring Boot - 2.3.5](https://start.spring.io/) 
 
-## Build And Run (springboot)
+## Build And Run (Gradle)
 
 - Gradle Build
-    ```. /Gradlew clean build```
+    ```. /gradlew clean build```
 - Gradle Run
-    ```. /Gradlew bootRun```
-    
+    ```. /gradlew bootRun```
+### Runtime args
+- `-Dapp.config.columnConfig.path=<columnConfig.path>`
+- `-Dapp.config.vendorConfig.path=<vendorConfig.path>`
+- `-Dapp.config.vendorData.path=<vendorData.path>`
+- `-Dapp.config.processedData.path=<processedData.path>`
+- `-Dapp.config.schedule=<schedule>`
+
 ## Exception Handling
 //TODO
 ## Tests
@@ -37,20 +50,16 @@
 
 - Gradle Build
     ```. /Gradlew clean build```
-- docker build -t datatranslator:1.0.0 .
+- Docker Build
+    `docker build -t datatranslator:1.0.0 .`
 
 #### Deploy / Run
-docker run datatranslator:1.0.0 
+`docker run --mount type=bind,source="$(pwd)"/resources/testfiles,dst=/home/data -it datatranslator:1.0.1` 
 
-#### Runtime args
-- `-Dapp.config.columnConfig.path=<columnConfig.path>`
-- `-Dapp.config.vendorConfig.path=<vendorConfig.path>`
-- `-Dapp.config.vendorData.path=<vendorData.path>`
-- `-Dapp.config.processedData.path=<processedData.path>`
-- `-Dapp.config.schedule=<schedule>`
+> NB : Replace `$(pwd)"/resources/testfiles` to point to any path as required.
 
 
-## See Also
+## Find me 
 
 - [Linkedin](https://www.linkedin.com/in/michael-george-7881b9126/)
 - [Stackoverflow](https://stackoverflow.com/users/12447757/michael-george)
