@@ -1,5 +1,6 @@
 package com.mike.datatranslator.service.iml;
 
+import com.mike.datatranslator.FileUtil;
 import com.mike.datatranslator.config.ApplicationConfig;
 import com.mike.datatranslator.service.DataTranslator;
 import org.slf4j.Logger;
@@ -38,6 +39,9 @@ public class DataTranslatorimpl implements DataTranslator {
     @Autowired
     ApplicationConfig.AppConfigData appConfigData;
 
+    @Autowired
+    FileUtil fileUtil;
+
     @Override
     public void translate() {
         FileInputStream vendorDataInputStream = null;
@@ -47,11 +51,13 @@ public class DataTranslatorimpl implements DataTranslator {
             vendorDataScanner = new Scanner(vendorDataInputStream, "UTF-8");
             String headerLine = vendorDataScanner.useDelimiter("\n").nextLine();
             LOGGER.info("--------------NEW FILE-------");
+            fileUtil.createWriter(processedDataPath);
             processHeader(headerLine);
             findIndexsOfColumns(headerLine);
             vendorDataScanner.
                     useDelimiter("\n")
                     .forEachRemaining(this::processDataLine);
+            fileUtil.closeWriter();
             if (vendorDataScanner.ioException() != null) {
                 throw vendorDataScanner.ioException();
             }
@@ -79,7 +85,8 @@ public class DataTranslatorimpl implements DataTranslator {
                 .stream()
                 .filter(h -> appConfigData.getColumnConfigMap().containsKey(h))
                 .forEach(this::formHeader);
-        System.out.println(newHeader);
+        //System.out.println(newHeader);
+        fileUtil.writeLineToFile(newHeader.toString());
         //LOGGER.info(newHeader.toString());
         newHeader.delete(0, newHeader.length());
 
@@ -109,7 +116,11 @@ public class DataTranslatorimpl implements DataTranslator {
                 .asList(dataLine
                         .split("    "))
                 .forEach(this::processData));
-        System.out.println(processedDataLine.toString());
+
+        Optional
+                .of(processedDataLine)
+                .filter(pdl -> pdl.length() > 0)
+                .ifPresent(pdl -> fileUtil.writeLineToFile(pdl.toString()));
         //LOGGER.info(processedDataLine.toString());
     }
 
