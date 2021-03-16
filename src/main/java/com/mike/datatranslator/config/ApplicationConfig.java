@@ -61,9 +61,7 @@ public class ApplicationConfig {
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
+            }  finally {
                 if (columnConfigInputStream != null) {
                     try {
                         columnConfigInputStream.close();

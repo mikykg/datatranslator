@@ -2,6 +2,8 @@ package com.mike.datatranslator.service.iml;
 
 import com.mike.datatranslator.config.ApplicationConfig;
 import com.mike.datatranslator.service.DataTranslator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,8 @@ import java.util.*;
 
 @Service
 public class DataTranslatorimpl implements DataTranslator {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataTranslatorimpl.class);
 
     private StringBuffer newHeader = new StringBuffer();
 
@@ -27,25 +31,18 @@ public class DataTranslatorimpl implements DataTranslator {
 
     @Override
     public void translate() {
-        System.out.println("I am a translator !");
         FileInputStream inputStream = null;
         Scanner sc = null;
         try {
             inputStream = new FileInputStream("/Users/michaelgeorge/my works/datatranslator/resources/testfiles/data.dat");
             sc = new Scanner(inputStream, "UTF-8");
             String headerLine = sc.useDelimiter("\n").nextLine();
-            System.out.println("--------------NEW FILE-------");
+            LOGGER.debug("--------------NEW FILE-------");
             processHeader(headerLine);
             findIndexsOfColumns(headerLine);
             sc.
                     useDelimiter("\n")
                     .forEachRemaining(this::processDataLine);
-           /* while (sc.hasNextLine()) {
-                //Thread.sleep(1000);
-                String line = sc.nextLine();
-                System.out.println(line);
-            }*/
-            // note that Scanner suppresses exceptions
             if (sc.ioException() != null) {
                 throw sc.ioException();
             }
@@ -68,14 +65,15 @@ public class DataTranslatorimpl implements DataTranslator {
     }
 
     @Async("asyncExecutor")
-    private void processDataLine(String dataLine){
+    public void processDataLine(String dataLine){
         processedDataLine.delete(0, processedDataLine.length());
         dataIndexCounter = 0;
         Arrays.
                 asList(dataLine
                         .split("    "))
                 .forEach(this::processData);
-        System.out.println(Thread.currentThread().getName() + "- "+ processedDataLine);
+        //System.out.println(Thread.currentThread().getName() + "- "+ processedDataLine);
+        LOGGER.info(processedDataLine.toString());
     }
 
 
@@ -85,7 +83,8 @@ public class DataTranslatorimpl implements DataTranslator {
                 .stream()
                 .filter(h -> appConfigData.getColumnConfigMap().containsKey(h))
                 .forEach(this::formHeader);
-        System.out.println(newHeader);
+        //System.out.println(newHeader);
+        LOGGER.debug(newHeader.toString());
     }
 
     private void formHeader(String data){

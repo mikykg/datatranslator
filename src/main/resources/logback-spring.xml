@@ -1,0 +1,21 @@
+<configuration>
+    <appender name="logstashConsoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <timeZone>UTC</timeZone>
+            <fieldNames>
+                <timestamp>time</timestamp>
+                <message>msg</message>
+                <version>[ignore]</version>
+                <levelValue>[ignore]</levelValue>
+                <thread>thread</thread>
+            </fieldNames>
+            <customFields>{"job": "datatranslator"}</customFields>
+        </encoder>
+    </appender>
+    <logger name="datatranslator" additivity="false" level="INFO">
+        <appender-ref ref="logstashConsoleAppender"/>
+    </logger>
+    <root level="INFO">
+        <appender-ref ref="logstashConsoleAppender"/>
+    </root>
+</configuration>
