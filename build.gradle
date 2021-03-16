@@ -1,0 +1,44 @@
+plugins {
+	id 'org.springframework.boot' version '2.5.0-SNAPSHOT'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+}
+
+group = 'com.mike'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+	maven { url 'https://repo.spring.io/snapshot' }
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+	compile "ch.qos.logback:logback-core:1.1.11"
+	compile "ch.qos.logback:logback-access:1.2.3"
+	compile "net.logstash.logback:logstash-logback-encoder:4.8"
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+
+sourceSets {
+	main {
+		resources {
+			srcDirs "src/main/resources", "$rootDir/resources"
+		}
+	}
+}
+
+springBoot {
+	//mainClass = mainClassName
+}
+
+bootRun {
+	// This line loads all command line arguments into gradle
+	systemProperties = System.properties
+}
+test {
+	useJUnitPlatform()
+}

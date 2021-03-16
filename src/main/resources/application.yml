@@ -1,0 +1,22 @@
+async:
+  executor:
+    corePoolSize: 15
+    queueCapacity: 0
+    maxPoolSize: 200
+
+logging:
+  level:
+    root:  ERROR
+    com.mike.datatranslator: INFO
+
+app:
+  config:
+    columnConfig:
+      path: "/home/data/column.config"
+    vendorConfig:
+      path: "/home/data/vendor.config"
+    vendorData:
+      path: "/home/data/data.dat"
+    processedData:
+      path: "/home/data/processed.dat"
+    schedule: 5000 #36000000 #10Hrs
