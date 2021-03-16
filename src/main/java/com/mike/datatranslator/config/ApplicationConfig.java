@@ -89,23 +89,15 @@ public class ApplicationConfig {
         }
     }
     private void mapColumn(final String columnLine)  {
- /*       try {
-            Thread.sleep(1000);
-        }catch (InterruptedException e){
-
-        }*/
-        //System.out.println("columnLine --> "+columnLine);
-        columnConfigMap.put(columnLine.split("    ")[0],columnLine.split("    ")[1]);
-        //System.out.println(columnLine.split("    ")[0] +" --- " + columnLine.split("    ")[1]);
+        columnConfigMap
+                .put(columnLine.split("    ")[0],columnLine
+                        .split("    ")[1]);
     }
 
     private void mapVendor(final String vendorLine)  {
-/*        try {
-            Thread.sleep(1000);
-        }catch (InterruptedException e){
-        }*/
-       vendorConfigMap.put(vendorLine.split("    ")[0],vendorLine.split("    ")[1]);
-        //System.out.println(vendorLine.split("    ")[0] +" --- " + vendorLine.split("    ")[1]);
+       vendorConfigMap
+               .put(vendorLine.split("    ")[0],vendorLine
+                       .split("    ")[1]);
     }
 
     @Bean

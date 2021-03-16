@@ -1,0 +1,5 @@
+async:
+  executor:
+    corePoolSize: 15
+    queueCapacity: 0
+    maxPoolSize: 200

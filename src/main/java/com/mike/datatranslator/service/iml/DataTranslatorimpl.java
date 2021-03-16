@@ -3,14 +3,13 @@ package com.mike.datatranslator.service.iml;
 import com.mike.datatranslator.config.ApplicationConfig;
 import com.mike.datatranslator.service.DataTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Stream;
 
 @Service
 public class DataTranslatorimpl implements DataTranslator {
@@ -19,9 +18,7 @@ public class DataTranslatorimpl implements DataTranslator {
 
     private StringBuffer processedDataLine = new StringBuffer();
 
-
     List<Integer> columnIndexList = new ArrayList<>();
-
 
     private int dataIndexCounter = 0;
 
@@ -40,7 +37,9 @@ public class DataTranslatorimpl implements DataTranslator {
             System.out.println("--------------NEW FILE-------");
             processHeader(headerLine);
             findIndexsOfColumns(headerLine);
-            sc.useDelimiter("\n").forEachRemaining(this::processDataLine);
+            sc.
+                    useDelimiter("\n")
+                    .forEachRemaining(this::processDataLine);
            /* while (sc.hasNextLine()) {
                 //Thread.sleep(1000);
                 String line = sc.nextLine();
@@ -68,16 +67,19 @@ public class DataTranslatorimpl implements DataTranslator {
         }
     }
 
+    @Async("asyncExecutor")
     private void processDataLine(String dataLine){
         processedDataLine.delete(0, processedDataLine.length());
         dataIndexCounter = 0;
-        Arrays.asList(dataLine.split("    ")).forEach(this::processData);
-        System.out.println(processedDataLine);
+        Arrays.
+                asList(dataLine
+                        .split("    "))
+                .forEach(this::processData);
+        System.out.println(Thread.currentThread().getName() + "- "+ processedDataLine);
     }
 
 
     private void processHeader(String headerLine){
-
        Arrays
                 .asList(headerLine.split("    "))
                 .stream()
@@ -87,18 +89,29 @@ public class DataTranslatorimpl implements DataTranslator {
     }
 
     private void formHeader(String data){
-         newHeader.append(appConfigData.getColumnConfigMap().get(data)).append("    ");
+         newHeader
+                 .append(appConfigData.getColumnConfigMap().get(data))
+                 .append("    ");
     }
 
     private void findIndexsOfColumns(String headerLine){
          appConfigData
                 .getColumnConfigMap()
                 .keySet()
-                .forEach(key -> columnIndexList.add(Arrays.asList(headerLine.split("    ")).indexOf(key)));
+                .forEach(key -> columnIndexList
+                        .add(Arrays.asList(headerLine
+                                .split("    "))
+                                .indexOf(key)));
     }
 
+    @Async("asyncExecutor")
     private void processData(String data){
-        Optional.of(columnIndexList).filter(cil -> cil.contains(dataIndexCounter)).ifPresent(cil -> processedDataLine.append(data).append("    "));
+        Optional
+                .of(columnIndexList)
+                .filter(cil -> cil.contains(dataIndexCounter))
+                .ifPresent(cil -> processedDataLine
+                        .append(data)
+                        .append("    "));
         dataIndexCounter++;
     }
 }
