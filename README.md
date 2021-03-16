@@ -19,7 +19,7 @@ Ref below  samples of supported Data and config files
 
 - [Spring Boot - 2.3.5](https://start.spring.io/) 
 
-## Build And Run (Gradle)
+## Build & Run (Gradle)
 
 - Gradle Build
     ```. /gradlew clean build```
