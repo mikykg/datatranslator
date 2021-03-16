@@ -5,6 +5,8 @@ import com.mike.datatranslator.service.DataTranslator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,7 @@ import java.io.IOException;
 import java.util.*;
 
 @Service
+@Configuration
 public class DataTranslatorimpl implements DataTranslator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DataTranslatorimpl.class);
@@ -26,40 +29,46 @@ public class DataTranslatorimpl implements DataTranslator {
 
     private int dataIndexCounter = 0;
 
+    @Value("${app.config.vendorData.path}")
+    private String vendorDataPath;
+
+    @Value("${app.config.processedData.path}")
+    private String processedDataPath;
+
     @Autowired
     ApplicationConfig.AppConfigData appConfigData;
 
     @Override
     public void translate() {
-        FileInputStream inputStream = null;
-        Scanner sc = null;
+        FileInputStream vendorDataInputStream = null;
+        Scanner vendorDataScanner = null;
         try {
-            inputStream = new FileInputStream("/Users/michaelgeorge/my works/datatranslator/resources/testfiles/data.dat");
-            sc = new Scanner(inputStream, "UTF-8");
-            String headerLine = sc.useDelimiter("\n").nextLine();
-            LOGGER.debug("--------------NEW FILE-------");
+            vendorDataInputStream = new FileInputStream(vendorDataPath);
+            vendorDataScanner = new Scanner(vendorDataInputStream, "UTF-8");
+            String headerLine = vendorDataScanner.useDelimiter("\n").nextLine();
+            LOGGER.info("--------------NEW FILE-------");
             processHeader(headerLine);
             findIndexsOfColumns(headerLine);
-            sc.
+            vendorDataScanner.
                     useDelimiter("\n")
                     .forEachRemaining(this::processDataLine);
-            if (sc.ioException() != null) {
-                throw sc.ioException();
+            if (vendorDataScanner.ioException() != null) {
+                throw vendorDataScanner.ioException();
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            if (inputStream != null) {
+            if (vendorDataInputStream != null) {
                 try {
-                    inputStream.close();
+                    vendorDataInputStream.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-            if (sc != null) {
-                sc.close();
+            if (vendorDataScanner != null) {
+                vendorDataScanner.close();
             }
         }
     }
@@ -72,7 +81,6 @@ public class DataTranslatorimpl implements DataTranslator {
                 asList(dataLine
                         .split("    "))
                 .forEach(this::processData);
-        //System.out.println(Thread.currentThread().getName() + "- "+ processedDataLine);
         LOGGER.info(processedDataLine.toString());
     }
 
@@ -85,7 +93,7 @@ public class DataTranslatorimpl implements DataTranslator {
                 .filter(h -> appConfigData.getColumnConfigMap().containsKey(h))
                 .forEach(this::formHeader);
         //System.out.println(newHeader);
-        LOGGER.debug(newHeader.toString());
+        LOGGER.info(newHeader.toString());
     }
 
     private void formHeader(String data){

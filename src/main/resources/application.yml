@@ -8,3 +8,15 @@ logging:
   level:
     root:  ERROR
     com.mike.datatranslator: INFO
+
+app:
+  config:
+    columnConfig:
+      path: "/Users/michaelgeorge/my works/datatranslator/resources/testfiles/column.config"
+    vendorConfig:
+      path: "/Users/michaelgeorge/my works/datatranslator/resources/testfiles/vendor.config"
+    vendorData:
+      path: "/Users/michaelgeorge/my works/datatranslator/resources/testfiles/data.dat"
+    processedData:
+      path: "/Users/michaelgeorge/my works/datatranslator/resources/testfiles/processed.dat"
+    schedule: 5000 #36000000 #10Hrs

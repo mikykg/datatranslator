@@ -1,5 +1,6 @@
 package com.mike.datatranslator.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,6 +15,12 @@ public class ApplicationConfig {
 
     private Map columnConfigMap = new HashMap<String, String>();
     private Map vendorConfigMap = new HashMap<String, String>();
+
+    @Value("${app.config.columnConfig.path}")
+    private String columnConfigPath;
+
+    @Value("${app.config.vendorConfig.path}")
+    private String vendorConfigPath;
 
     public class AppConfigData {
         private Map columnConfigMap = new HashMap<String, String>();
@@ -48,8 +55,8 @@ public class ApplicationConfig {
             Scanner vendorConfigscanner = null;
 
             try {
-                columnConfigInputStream = new FileInputStream("/Users/michaelgeorge/my works/datatranslator/resources/testfiles/column.config");
-                vendorConfigInputStream = new FileInputStream("/Users/michaelgeorge/my works/datatranslator/resources/testfiles/vendor.config");
+                columnConfigInputStream = new FileInputStream(columnConfigPath);
+                vendorConfigInputStream = new FileInputStream(vendorConfigPath);
 
                 columnConfigscanner = new Scanner(columnConfigInputStream, "UTF-8");
                 columnConfigscanner.useDelimiter("\n").forEachRemaining(this::mapColumn);
