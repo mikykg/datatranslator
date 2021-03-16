@@ -50,7 +50,7 @@ Ref below  samples of supported Data and config files
     `docker build -t datatranslator:1.0.0 .`
 
 ### Deploy / Run
-`docker run --mount type=bind,source="$(pwd)"/resources/testfiles,dst=/home/data -it datatranslator:1.0.1`
+`docker run --mount type=bind,source="$(pwd)"/resources/testfiles,dst=/home/data -it datatranslator:1.0.0`
 
 > NB : Replace `$(pwd)"/resources/testfiles` to point to any path as required.
  
