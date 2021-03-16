@@ -77,6 +77,7 @@ public class DataTranslatorimpl implements DataTranslator {
     }
 
 
+
     private void processHeader(String headerLine){
        Arrays
                 .asList(headerLine.split("    "))
