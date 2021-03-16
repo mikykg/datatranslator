@@ -73,27 +73,16 @@ public class DataTranslatorimpl implements DataTranslator {
         }
     }
 
-    @Async("asyncExecutor")
-    public void processDataLine(String dataLine){
-        processedDataLine.delete(0, processedDataLine.length());
-        dataIndexCounter = 0;
-        Arrays.
-                asList(dataLine
-                        .split("    "))
-                .forEach(this::processData);
-        LOGGER.info(processedDataLine.toString());
-    }
-
-
-
     private void processHeader(String headerLine){
        Arrays
                 .asList(headerLine.split("    "))
                 .stream()
                 .filter(h -> appConfigData.getColumnConfigMap().containsKey(h))
                 .forEach(this::formHeader);
-        //System.out.println(newHeader);
-        LOGGER.info(newHeader.toString());
+        System.out.println(newHeader);
+        //LOGGER.info(newHeader.toString());
+        newHeader.delete(0, newHeader.length());
+
     }
 
     private void formHeader(String data){
@@ -113,13 +102,37 @@ public class DataTranslatorimpl implements DataTranslator {
     }
 
     @Async("asyncExecutor")
-    private void processData(String data){
+    public void processDataLine(String dataLine){
+        processedDataLine.delete(0, processedDataLine.length());
+        dataIndexCounter = 0;
+        Optional.of(dataLine).filter(this::isNeededVendorData).ifPresent( dl -> Arrays
+                .asList(dataLine
+                        .split("    "))
+                .forEach(this::processData));
+        System.out.println(processedDataLine.toString());
+        //LOGGER.info(processedDataLine.toString());
+    }
+
+    private boolean isNeededVendorData(final String dataLine){
+        return appConfigData
+                .getVendorConfigMap()
+                .keySet()
+                .contains(Arrays
+                        .asList(dataLine.split("    "))
+                        .get(0));
+    }
+
+    @Async("asyncExecutor")
+    private void processData(final String data){
+
+        String derivedData = data;
         Optional
                 .of(columnIndexList)
                 .filter(cil -> cil.contains(dataIndexCounter))
                 .ifPresent(cil -> processedDataLine
-                        .append(data)
-                        .append("    "));
+                        .append(dataIndexCounter == 0 ? appConfigData.getVendorConfigMap().get(data) : data)
+                        .append("    ")
+                );
         dataIndexCounter++;
     }
 }

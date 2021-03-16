@@ -1,4 +1,4 @@
-package com.mike.datatranslator;
+package com.mike.datatranslator.scheduler;
 
 import com.mike.datatranslator.service.DataTranslator;
 import org.springframework.beans.factory.annotation.Autowired;

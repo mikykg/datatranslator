@@ -20,6 +20,6 @@ public class DatatranslatorApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		dataTranslator.translate();
+		//dataTranslator.translate();
 	}
 }
