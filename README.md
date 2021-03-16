@@ -45,7 +45,7 @@ Ref below  samples of supported Data and config files
 ### Build
 
 - Gradle Build
-    ```. /Gradlew clean build```
+    ```. /gradlew clean build```
 - Docker Build
     `docker build -t datatranslator:1.0.0 .`
 
