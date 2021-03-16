@@ -30,6 +30,10 @@ public class DataTranslatorimpl implements DataTranslator {
 
     private int dataIndexCounter = 0;
 
+    private long batchSizeCounter=0;
+
+    private long processedBatchCounter=0;
+
     @Value("${app.config.vendorData.path}")
     private String vendorDataPath;
 
@@ -46,11 +50,13 @@ public class DataTranslatorimpl implements DataTranslator {
     public void translate() {
         FileInputStream vendorDataInputStream = null;
         Scanner vendorDataScanner = null;
+        batchSizeCounter=0;
+        processedBatchCounter=0;
         try {
             vendorDataInputStream = new FileInputStream(vendorDataPath);
             vendorDataScanner = new Scanner(vendorDataInputStream, "UTF-8");
             String headerLine = vendorDataScanner.useDelimiter("\n").nextLine();
-            LOGGER.info("--------------NEW FILE-------");
+            LOGGER.info("Starting Data Processing");
             fileUtil.createWriter(processedDataPath);
             processHeader(headerLine);
             findIndexsOfColumns(headerLine);
@@ -58,6 +64,7 @@ public class DataTranslatorimpl implements DataTranslator {
                     useDelimiter("\n")
                     .forEachRemaining(this::processDataLine);
             fileUtil.closeWriter();
+            LOGGER.info("Completed processing batch of {} lines with input size of {} ", processedBatchCounter, batchSizeCounter);
             if (vendorDataScanner.ioException() != null) {
                 throw vendorDataScanner.ioException();
             }
@@ -85,9 +92,8 @@ public class DataTranslatorimpl implements DataTranslator {
                 .stream()
                 .filter(h -> appConfigData.getColumnConfigMap().containsKey(h))
                 .forEach(this::formHeader);
-        //System.out.println(newHeader);
         fileUtil.writeLineToFile(newHeader.toString());
-        //LOGGER.info(newHeader.toString());
+        LOGGER.debug(newHeader.toString());
         newHeader.delete(0, newHeader.length());
 
     }
@@ -110,17 +116,22 @@ public class DataTranslatorimpl implements DataTranslator {
 
     @Async("asyncExecutor")
     public void processDataLine(String dataLine){
+        batchSizeCounter++;
         processedDataLine.delete(0, processedDataLine.length());
         dataIndexCounter = 0;
         Optional.of(dataLine).filter(this::isNeededVendorData).ifPresent( dl -> Arrays
-                .asList(dataLine
-                        .split("    "))
-                .forEach(this::processData));
+                    .asList(dataLine
+                            .split("    "))
+                    .forEach(this::processData)
+        );
 
         Optional
                 .of(processedDataLine)
                 .filter(pdl -> pdl.length() > 0)
-                .ifPresent(pdl -> fileUtil.writeLineToFile(pdl.toString()));
+                .ifPresent(pdl -> {
+                    processedBatchCounter++;
+                    fileUtil.writeLineToFile(pdl.toString());
+                });
         //LOGGER.info(processedDataLine.toString());
     }
 
