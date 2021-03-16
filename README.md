@@ -41,22 +41,22 @@ Ref below  samples of supported Data and config files
 #### Perfomance Tests
 //TODO
 
-## Contribute
-
-[PR](https://github.com/mikykg/datatranslator/pulls) & [CI](TODO)
-
-### Docker
-#### Build
+## Docker
+### Build
 
 - Gradle Build
     ```. /Gradlew clean build```
 - Docker Build
     `docker build -t datatranslator:1.0.0 .`
 
-#### Deploy / Run
+### Deploy / Run
 `docker run --mount type=bind,source="$(pwd)"/resources/testfiles,dst=/home/data -it datatranslator:1.0.1` 
 
 > NB : Replace `$(pwd)"/resources/testfiles` to point to any path as required.
+
+## Contribute
+
+[PR](https://github.com/mikykg/datatranslator/pulls)
 
 
 ## Find me 
