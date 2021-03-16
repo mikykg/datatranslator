@@ -19,6 +19,23 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
+
+sourceSets {
+	main {
+		resources {
+			srcDirs "src/main/resources", "$rootDir/resources"
+		}
+	}
+}
+
+springBoot {
+	//mainClass = mainClassName
+}
+
+bootRun {
+	// This line loads all command line arguments into gradle
+	systemProperties = System.properties
+}
 test {
 	useJUnitPlatform()
 }
