@@ -68,6 +68,13 @@ Pull the latest image
 - [Discuss](https://github.com/mikykg/datatranslator/discussions)
 - [Report issues](https://github.com/mikykg/datatranslator/issues/new/choose)
 
+## Contributors ✨
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/mikykg"><img src="https://avatars.githubusercontent.com/u/37050637?s=400&u=3fcd742ab3e33f0a5ce232caa745a2ebd7d1a297&v=4" width="100px;" alt=""/><br /><sub><b>Michael George</b></sub></a><br /><a href="https://github.com/mikykg/datatranslator/blob/main/README.md" title="Documentation">📖</a> <a href="https://github.com/mikykg/datatranslator/commits?author=mikykg" title="Code">💻</a> </td>
+  </tr>
+</table>
+
 ## Find me 
 
 - [Linkedin](https://www.linkedin.com/in/michael-george-7881b9126/)
