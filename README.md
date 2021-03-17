@@ -2,7 +2,7 @@
 
 ## About
 
-<p>Data Translator is a multithreading high performance scheduler which can process and transform large data files based on defined configurations.</p>
+<p>Data Translator is a multithreaded high performance scheduler which can process and transform large data files based on defined configurations.</p>
 Ref below  samples of supported Data and config files
 
 - [Column Config](https://github.com/mikykg/datatranslator/blob/main/resources/testfiles/column.config)
