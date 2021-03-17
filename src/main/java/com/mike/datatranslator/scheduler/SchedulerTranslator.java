@@ -16,7 +16,6 @@ public class SchedulerTranslator {
     @Value("${app.config.processedData.path}")
     private String processedDataPath;
 
-    //@ConditionalOnProperty(prefix = "SchedulerTranslator", name = "enabled", havingValue = "true", matchIfMissing = true)
     @Scheduled(fixedDelayString = "${app.config.schedule}")
     public void triggerRelaunchEvents() {
         dataTranslator.translate();
