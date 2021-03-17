@@ -132,7 +132,7 @@ public class DataTranslatorimpl implements DataTranslator {
                     processedBatchCounter++;
                     fileUtil.writeLineToFile(pdl.toString());
                 });
-        //LOGGER.info(processedDataLine.toString());
+        LOGGER.debug(processedDataLine.toString());
     }
 
     private boolean isNeededVendorData(final String dataLine){

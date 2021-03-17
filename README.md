@@ -32,12 +32,18 @@ Ref below  samples of supported Data and config files
 - `-Dapp.config.processedData.path=<processedData.path>`
 - `-Dapp.config.schedule=<schedule>`
 
+## Checkstyle & Static code analysis
+//TODO
+ 
 ## Exception Handling
 //TODO
+
 ## Tests
 //TODO
+
 #### Unit & Acceptance Testing
 //TODO
+
 #### Perfomance Tests
 //TODO
 
