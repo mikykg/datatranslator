@@ -66,6 +66,7 @@ Pull the latest image
 
 - [PR](https://github.com/mikykg/datatranslator/pulls)
 - [Discuss](https://github.com/mikykg/datatranslator/discussions)
+- [Report issues](https://github.com/mikykg/datatranslator/issues/new/choose)
 
 ## Find me 
 
