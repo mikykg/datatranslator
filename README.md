@@ -64,8 +64,8 @@ Pull the latest image
 
 ## Contribute
 
-[PR](https://github.com/mikykg/datatranslator/pulls)
-[Discuss](https://github.com/mikykg/datatranslator/discussions)
+- [PR](https://github.com/mikykg/datatranslator/pulls)
+- [Discuss](https://github.com/mikykg/datatranslator/discussions)
 
 ## Find me 
 
