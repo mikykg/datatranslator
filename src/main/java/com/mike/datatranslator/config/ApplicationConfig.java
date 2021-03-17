@@ -48,7 +48,6 @@ public class ApplicationConfig {
     @PostConstruct
     private void loadConfig(){
         {
-            System.out.println("I am a config loader !");
             FileInputStream columnConfigInputStream = null;
             FileInputStream vendorConfigInputStream = null;
             Scanner columnConfigscanner = null;

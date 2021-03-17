@@ -49,9 +49,6 @@ public class SystemConfig {
 
     @Bean(name = "asyncExecutor")
     public Executor asyncExecutor() {
-        System.out.println(getCorePoolSize());
-        System.out.println(getQueueCapacity());
-        System.out.println(getMaxPoolSize());
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(getCorePoolSize());
         executor.setQueueCapacity(getQueueCapacity());
